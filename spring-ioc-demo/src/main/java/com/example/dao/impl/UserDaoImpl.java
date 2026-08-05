@@ -1,10 +1,14 @@
 package com.example.dao.impl;
 import com.example.dao.UserDao;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLOutput;
-
+@Repository
 public class UserDaoImpl implements UserDao{
+    @Value("www.baidu.com")
     private String dbUrl;
+    @Value("100")
     private int maxConnection;
 
 //    public void setDbUrl(String dbUrl) {
