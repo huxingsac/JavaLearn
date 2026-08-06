@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.dao.UserDao;
+import com.example.service.AccountService;
 import com.example.service.OrderService;
 import com.example.service.UserService;
 import org.springframework.context.ApplicationContext;
@@ -14,9 +15,12 @@ public class SpringIocTest {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(SpringConfig.class);
 
-        UserService userService = context.getBean("userServiceImpl", UserService.class);
-        userService.addUser();
-
+        AccountService accountService = context.getBean(AccountService.class);
+        try{
+            accountService.transfer("张三","李四",100);
+        }catch (Exception e){
+            System.out.println("转账代码出现错误，看是否有事务回滚！");
+        }
         context.close();
     }
 }
