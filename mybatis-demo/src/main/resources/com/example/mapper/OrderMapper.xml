@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：绑定对应的Mapper接口，写接口的全限定名 -->
+<mapper namespace="com.example.mapper.OrderMapper">
+
+    <!--
+        id：对应接口里的方法名，必须完全一致
+        resultType：返回值类型，查询结果要封装成什么对象
+        标签名：select查询、insert新增、update修改、delete删除
+    -->
+    <resultMap id="OrderWithUserMap" type="com.example.pojo.Order">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="total"  property="total"/>
+        <result column="user_id" property="userId"/>
+
+        <association property="user"    javaType="com.example.pojo.User">
+            <id column="user_id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="age" property="age"/>
+            <result column="email"  property="email"/>
+        </association>
+    </resultMap>
+
+    <select id="findByIdWithUser" resultMap="OrderWithUserMap">
+        select
+            o.id, o.order_no, o.total, o.user_id,
+            u.username, u.age, u.email
+        from orders o
+                 left join user u on o.user_id = u.id
+        where o.id = #{id}
+    </select>
+
+</mapper>

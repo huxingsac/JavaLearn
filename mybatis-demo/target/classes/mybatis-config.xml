@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- 1. 开启控制台 SQL 日志打印 -->
+    <settings>
+        <!-- 全局设置：开启驼峰命名自动映射，必须放在environments前面 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!-- 1. 开启控制台 SQL 日志打印 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!-- 环境配置：可以配置多套，默认使用development -->
+    <environments default="development">
+        <environment id="development">
+            <!-- 事务管理器：JDBC事务 -->
+            <transactionManager type="JDBC"/>
+            <!-- 数据源：数据库连接信息 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis_demo?useSSL=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="3522021@Hx"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 引入Mapper映射文件：告诉MyBatis我们的SQL写在哪里 -->
+    <mappers>
+        <mapper resource="com/example/mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>

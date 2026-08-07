@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：绑定对应的Mapper接口，写接口的全限定名 -->
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <!--
+        id：对应接口里的方法名，必须完全一致
+        resultType：返回值类型，查询结果要封装成什么对象
+        标签名：select查询、insert新增、update修改、delete删除
+    -->
+    <select id="findAll" resultType="com.example.pojo.User">
+        select * from user
+    </select>
+
+    <select id="findById" resultType="com.example.pojo.User">
+        select * from user where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from user where id = #{id}
+    </delete>
+
+    <update id="addUser">
+        insert into user (id,username,password,age,email) values
+        (#{username},#{password},#{age},#{email})
+    </update>
+
+    <update id="addUserList">
+        insert into user (id,username,password,age,email) values
+            <foreach collection="userList" item="user" separator=",">
+                (#{user.id},#{user.username},#{user.password},#{user.age},#{user.email})
+            </foreach>
+    </update>
+
+    <select id="findByMap" resultType="com.example.pojo.User">
+        select * from user
+        <where>
+            <if test="username!=null">
+                and  username=#{username}
+            </if>
+            <if test="age!=null">
+                and age = #{age};
+
+            </if>
+        </where>
+    </select>
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="age!=null">
+                age=#{age},
+            </if>
+            <if test="password!=null and password!=''">
+                password=#{password},
+            </if>
+            <if test="email!=null and email!=''">
+                email=#{email}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteByDiList">
+        delete from user where id in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
